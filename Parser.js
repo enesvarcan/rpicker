@@ -4,7 +4,7 @@
 function parse(message) {
     var content = message.content
     if (content[0] != "*" )             // If message does not start with '*'
-        throw Error("ignore_message")   // Throw error
+        throw Error("ignore_message")   // Throw error, this will be ignored
 
      // Split the message as ["command", "text"]
      var strList = content.substring(1).toLowerCase().split(" ")

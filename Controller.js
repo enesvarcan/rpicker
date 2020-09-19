@@ -2,8 +2,9 @@
 // Process the command and produce output
 
 const parser = require('./Parser')
+const store = require('./Store')
 
-function process(message, store) {
+function process(message) {
     try {
         var parsedMessage = parser(message)
 
@@ -26,13 +27,28 @@ function process(message, store) {
                 store.clear()
                 message.channel.send("List cleared.")
                 break
+            case "toss":
+                let coin = ["Heads", "Tails"]
+                message.channel.send(coin[Math.floor(Math.random() * coin.length)])  
+                break
+            case "random":
+                message.channel.send(Math.floor(Math.random() * parsedMessage.text))
+                break  
             default:
-                message.channel.send("Commands:\n \
-                *add, *remove, *list, *clear, *pick")
+                message.channel.send("Commands:\n" + 
+                "*add [option], " +
+                "*remove [index], " + 
+                "*list, " +
+                "*clear, " + 
+                "*pick, " + 
+                "*toss, " + 
+                "*random [limit]")
         }
     }
-    catch (e){
+    catch (e){ 
+        // Ignore messages which are not any of the commands
         if(e.message === "ignore_message")  return
+         
         console.log(e.message)
         message.channel.send('An error occured, try again.')
     }
